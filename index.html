@@ -1,14 +1,961 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
-    
-    <h1>Hello, world!</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+    <title>CodeMasters - Aprende Programación desde Cero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0f172a;
+            --primary-light: #f8fafc;
+            --accent-emerald: #10b981;
+            --accent-indigo: #6366f1;
+            --accent-warm: #f97316;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+            background: var(--primary-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Fira Code', monospace;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-emerald);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2a4a 100%);
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, var(--accent-emerald), var(--accent-warm));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-emerald), var(--accent-indigo));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--accent-emerald);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-emerald);
+            transform: translateY(-4px);
+        }
+
+        .hero-visual {
+            position: relative;
+            z-index: 2;
+            animation: fadeInRight 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .code-block {
+            background: #1e2d4a;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #e0e7ff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .code-block:hover {
+            transform: rotate(0deg);
+        }
+
+        .code-keyword { color: var(--accent-emerald); }
+        .code-string { color: var(--accent-warm); }
+        .code-function { color: var(--accent-indigo); }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Courses Section */
+        .courses {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-indigo), var(--accent-emerald));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Features Section */
+        .features {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2a4a 100%);
+            color: white;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-box {
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-box:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-emerald);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .stars {
+            color: var(--accent-warm);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-emerald));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 4rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--accent-indigo);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-emerald);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                padding: 2rem 1rem;
+            }
+
+            .hero::before,
+            .hero::after {
+                width: 300px;
+                height: 300px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .code-block {
+                transform: rotate(0deg);
+                font-size: 0.8rem;
+                padding: 1.5rem;
+            }
+
+            .courses {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-section {
+                margin: 2rem 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">&lt;CodeMasters/&gt;</div>
+        <ul class="nav-links">
+            <li><a href="#cursos">Cursos</a></li>
+            <li><a href="#características">Características</a></li>
+            <li><a href="#testimonios">Testimonios</a></li>
+            <li><button class="cta-button">Iniciar Gratis</button></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Aprende <span class="hero-highlight">Programación</span> desde Cero</h1>
+            <p>Domina las habilidades tecnológicas más demandadas del mercado laboral con nuestros cursos prácticos y mentores expertos.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Comenzar Ahora</button>
+                <button class="btn-secondary">Ver Planes</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="code-block">
+                <div><span class="code-keyword">const</span> futuro = <span class="code-string">"En tus manos"</span>;</div>
+                <div><span class="code-keyword">const</span> carreras = [<span class="code-string">"Frontend"</span>, <span class="code-string">"Backend"</span>, <span class="code-string">"Full-Stack"</span>];</div>
+                <div>&nbsp;</div>
+                <div><span class="code-function">aprender</span>().then(() =&gt; {</div>
+                <div style="margin-left: 20px;"><span class="code-keyword">return</span> <span class="code-function">conseguirTrabajo</span>(salario);</div>
+                <div>});</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat-item">
+            <div class="stat-number">2.3K+</div>
+            <div class="stat-label">Estudiantes Activos</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Cursos Disponibles</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">92%</div>
+            <div class="stat-label">Tasa de Satisfacción</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">450+</div>
+            <div class="stat-label">Graduados Empleados</div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" id="cursos">
+        <h2 class="section-title">Nuestros Cursos</h2>
+        <p class="section-subtitle">Desde principiante hasta profesional. Elige tu ruta de aprendizaje.</p>
+
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-icon">📘</div>
+                <h3 class="course-title">JavaScript Moderno</h3>
+                <p class="course-desc">Domina los fundamentos y características avanzadas de JavaScript ES6+</p>
+                <div class="course-meta">
+                    <span>40 horas</span>
+                    <span>Intermedio</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-icon">⚛️</div>
+                <h3 class="course-title">React Profesional</h3>
+                <p class="course-desc">Construye aplicaciones web modernas con React, hooks y Redux</p>
+                <div class="course-meta">
+                    <span>35 horas</span>
+                    <span>Intermedio</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-icon">🐍</div>
+                <h3 class="course-title">Python para Principiantes</h3>
+                <p class="course-desc">Aprende lógica de programación con el lenguaje más accesible del mercado</p>
+                <div class="course-meta">
+                    <span>30 horas</span>
+                    <span>Básico</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-icon">🔧</div>
+                <h3 class="course-title">Node.js Backend</h3>
+                <p class="course-desc">Desarrolla servidores escalables y APIs REST con Node.js y Express</p>
+                <div class="course-meta">
+                    <span>45 horas</span>
+                    <span>Avanzado</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-icon">🗄️</div>
+                <h3 class="course-title">SQL y Bases de Datos</h3>
+                <p class="course-desc">Domina el diseño y gestión de bases de datos relacionales</p>
+                <div class="course-meta">
+                    <span>25 horas</span>
+                    <span>Intermedio</span>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-icon">🚀</div>
+                <h3 class="course-title">Full-Stack Web Development</h3>
+                <p class="course-desc">Conviértete en developer full-stack con nuestro programa intensivo</p>
+                <div class="course-meta">
+                    <span>120 horas</span>
+                    <span>Completo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="características">
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3 class="feature-title">Mentores Expertos</h3>
+                <p class="feature-text">Aprende de profesionales con 10+ años de experiencia en la industria tech</p>
+            </div>
+
+            <div class="feature-box">
+                <div class="feature-icon">💻</div>
+                <h3 class="feature-title">Proyectos Reales</h3>
+                <p class="feature-text">Trabaja en proyectos auténticos que puedas añadir a tu portafolio</p>
+            </div>
+
+            <div class="feature-box">
+                <div class="feature-icon">🎓</div>
+                <h3 class="feature-title">Certificaciones</h3>
+                <p class="feature-text">Obtén certificados reconocidos por la industria al completar cursos</p>
+            </div>
+
+            <div class="feature-box">
+                <div class="feature-icon">🤝</div>
+                <h3 class="feature-title">Comunidad Activa</h3>
+                <p class="feature-text">Conecta con otros estudiantes y profesionales en nuestra comunidad</p>
+            </div>
+
+            <div class="feature-box">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">Aprende a tu Ritmo</h3>
+                <p class="feature-text">Acceso de por vida a todos los materiales y lecciones grabadas</p>
+            </div>
+
+            <div class="feature-box">
+                <div class="feature-icon">💼</div>
+                <h3 class="feature-title">Soporte Laboral</h3>
+                <p class="feature-text">Ayuda con CV, entrevistas y conexiones con empresas top</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonios">
+        <h2 class="section-title">Lo que Dicen Nuestros Estudiantes</h2>
+        <p class="section-subtitle">Historias reales de transformación profesional</p>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Hace 6 meses no sabía nada de programación. Ahora trabajo como junior developer en una startup. CodeMasters cambió mi vida."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MC</div>
+                    <div class="author-info">
+                        <h4>María Consuelo</h4>
+                        <div class="author-role">Junior Developer</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Los proyectos prácticos me dieron la confianza que necesitaba. El portafolio que construí fue clave para conseguir mi trabajo."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DJ</div>
+                    <div class="author-info">
+                        <h4>Diego Jiménez</h4>
+                        <div class="author-role">Frontend Developer</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"La calidad de los mentores es excepcional. Aprendí más en 3 meses aquí que en un año estudiando por mi cuenta."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AR</div>
+                    <div class="author-info">
+                        <h4>Alejandra Rojas</h4>
+                        <div class="author-role">Full-Stack Developer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>¿Listo para Comenzar tu Carrera en Tech?</h2>
+        <p>Únete a miles de estudiantes que ya están transformando sus carreras. Acceso gratuito a la primera semana de cualquier curso.</p>
+        <button class="btn-white">Inscribirse Ahora</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Cursos</h3>
+                <a href="#">JavaScript</a>
+                <a href="#">React</a>
+                <a href="#">Python</a>
+                <a href="#">Node.js</a>
+            </div>
+            <div class="footer-section">
+                <h3>Comunidad</h3>
+                <a href="#">Foro</a>
+                <a href="#">Discord</a>
+                <a href="#">Eventos</a>
+                <a href="#">Blog</a>
+            </div>
+            <div class="footer-section">
+                <h3>Empresa</h3>
+                <a href="#">Sobre Nosotros</a>
+                <a href="#">Contacto</a>
+                <a href="#">Privacidad</a>
+                <a href="#">Términos</a>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CodeMasters. Todos los derechos reservados. Hecho con 💻 para futuros programadores.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll enhancement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.course-card, .testimonial-card, .feature-box').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Button hover effects
+        document.querySelectorAll('.cta-button, .btn-primary, .btn-secondary, .btn-white').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+    </script>
+</body>
 </html>
